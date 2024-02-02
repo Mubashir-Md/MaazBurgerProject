@@ -8,14 +8,18 @@ textclf = joblib.load('Notebook_And_Models/model.pkl')
 tfidf_vectorizer = joblib.load('Notebook_And_Models/vectorizer.pkl')
 
 # Burger function to calculate burger score based on polarity score
+burger = 0
+burger_count = 0
 def Burger(input):
-    burger = 0
+    global burger
     if input >= 0.8 or input == 1:
         burger += 3
     elif input <= 0.3:
         burger += 0
     elif input > 0.5 and input < 0.8:
         burger += 2
+    else:
+        burger += 1
     return burger
 @app.route('/')
 def home():
