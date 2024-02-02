@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text Classification</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Text Classification</h1>
+      <form id="predictionForm">
+        <textarea
+          id="textInput"
+          rows="4"
+          cols="50"
+          placeholder="Enter text here..."
+          required
+        ></textarea
+        ><br /><br />
+        <input type="button" value="Predict" onclick="predict()" id="predictButton" disabled/>
+      </form>
+      <p id="predictionResult"></p>
+    </div>
+    <script>
+      const textInput = document.getElementById('textInput');
+      const predictButton = document.getElementById('predictButton');
+  
+      // Add an event listener to the textarea to check its value
+      textInput.addEventListener('input', function() {
+          // Enable the button if the textarea is not empty, otherwise disable it
+          if (textInput.value.trim() !== '') {
+              predictButton.disabled = false;
+          } else {
+              predictButton.disabled = true;
+          }
+      });
+  </script>
+    <!-- Include your JavaScript file -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
