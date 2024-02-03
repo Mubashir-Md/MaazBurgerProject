@@ -10,6 +10,7 @@ tfidf_vectorizer = joblib.load('Notebook_And_Models/vectorizer.pkl')
 # Burger function to calculate burger score based on polarity score
 burger = 0
 burger_count = 0
+
 def Burger(input):
     global burger
     if input >= 0.8 or input == 1:
@@ -21,19 +22,24 @@ def Burger(input):
     else:
         burger += 1
     return burger
+
 @app.route('/')
 def home():
     return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    global burger_count
+    
     if request.method == 'POST':
         text = request.form['text']
         prediction = textclf.predict([text])[0]
         polarity_score = textclf.decision_function([text])[0]
         print(polarity_score)
         burger_score = Burger(polarity_score)
-        return jsonify({'prediction': prediction, 'burger_score': burger_score})
+
+        burger_count += burger_score
+        return jsonify({'prediction': prediction, 'burger_score': burger_score, 'burger_count': burger_count})
 
 if __name__ == '__main__':
     app.run(debug=True)
